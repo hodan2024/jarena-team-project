@@ -53,6 +53,14 @@ public class DashboardController {
         return "user-management/customer-dashboard";
     }
 
+    @GetMapping("/admin/users")
+    public String adminUsers(HttpSession session, Model model) {
+        if (!AuthHelper.isAdmin(session)) return "redirect:/login";
+        model.addAttribute("admin", AuthHelper.getLoggedInUser(session));
+        model.addAttribute("users", userService.getAllUsers());
+        return "user-management/admin-users";
+    }
+
     @GetMapping("/admin/dashboard")
     public String adminDashboard(HttpSession session, Model model) {
         if (!AuthHelper.isAdmin(session)) return "redirect:/login";
